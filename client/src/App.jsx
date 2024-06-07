@@ -16,7 +16,6 @@ import EditJobPage from "./pages/EditJobPage";
 
 const App = () => {
   const [jobs, setJobs] = useState([]);
-
   const fetchJobs = async () => {
     try {
       const res = await fetch("https://job-filter-ncb8.onrender.com/api/jobs");
@@ -24,6 +23,7 @@ const App = () => {
         throw new Error("Failed to fetch jobs");
       }
       const data = await res.json();
+      console.log("Fetched jobs:", data);
       setJobs(data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -31,8 +31,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    // Fetch jobs data when the component mounts
-    fetchJobs();
+    const fetchData = async () => {
+      await fetchJobs();
+    };
+    fetchData();
   }, []); // Empty dependency array ensures this effect runs only once, when the component mounts
 
   const addJob = async (newJob) => {
@@ -47,8 +49,8 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to add job");
       }
-      const addedJob = await res.json();
-      setJobs((prevJobs) => [...prevJobs, addedJob]);
+      // After adding job, fetch updated jobs data
+      fetchJobs();
     } catch (error) {
       console.error("Error adding job:", error);
       throw error;
@@ -66,34 +68,31 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to delete job");
       }
-      setJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
+      // After deleting job, fetch updated jobs data
+      fetchJobs();
     } catch (error) {
       console.error("Error deleting job:", error);
       throw error;
     }
   };
 
-  const updateJob = async (updatedJob) => {
+  const updateJob = async (job) => {
     try {
       const res = await fetch(
-        `https://job-filter-ncb8.onrender.com/api/jobs/${updatedJob.id}`,
+        `https://job-filter-ncb8.onrender.com/api/jobs/${job.id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedJob),
+          body: JSON.stringify(job),
         }
       );
       if (!res.ok) {
         throw new Error("Failed to update job");
       }
-      const updatedJobData = await res.json();
-      setJobs((prevJobs) =>
-        prevJobs.map((job) =>
-          job.id === updatedJobData.id ? updatedJobData : job
-        )
-      );
+      // After updating job, fetch updated jobs data
+      fetchJobs();
     } catch (error) {
       console.error("Error updating job:", error);
       throw error;
