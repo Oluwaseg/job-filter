@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
-const path = require("path");
 const port = process.env.PORT || 4000;
 
 // Middleware
@@ -119,14 +118,6 @@ app.delete("/api/jobs/:id", async (req, res) => {
     console.error("Error deleting job:", error);
     res.status(500).send("Internal Server Error");
   }
-});
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "dist")));
-
-// The "catchall" handler: for any request that doesn't match one above, send back index.html.
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 // Start server
