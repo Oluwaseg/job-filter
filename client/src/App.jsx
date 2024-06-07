@@ -5,16 +5,15 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import HomePage from "./pages/HomePage";
+import Homepage from "./pages/Homepage";
 import JobsPage from "./pages/JobsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import JobPage from "./pages/JobPage";
+import JobLoader from "./components/JobLoader";
 import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
-import JobLoader from "./components/JobLoader";
 
 const App = () => {
-  // Add New Job
   const addJob = async (newJob) => {
     const res = await fetch("https://job-filter-ncb8.onrender.com/api/jobs", {
       method: "POST",
@@ -55,7 +54,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<HomePage />} />
+        <Route index element={<Homepage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
         <Route
@@ -75,4 +74,5 @@ const App = () => {
 
   return <RouterProvider router={router} />;
 };
+
 export default App;
