@@ -8,10 +8,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://mellow-meerkat-0c9423.netlify.app",
-    ],
+    origin: ["https://mellow-meerkat-0c9423.netlify.app"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
