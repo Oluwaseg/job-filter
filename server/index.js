@@ -8,10 +8,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(
   cors({
-    origin: [
-      "https://job-filters.onrender.com",
-      "https://fanciful-dieffenbachia-470c73.netlify.app",
-    ],
+    origin: ["https://job-filters-react.netlify.app"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
