@@ -16,6 +16,7 @@ import EditJobPage from "./pages/EditJobPage";
 
 const App = () => {
   const [jobs, setJobs] = useState([]);
+
   const fetchJobs = async () => {
     try {
       const res = await fetch("https://job-filter-ncb8.onrender.com/api/jobs");
@@ -46,8 +47,8 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to add job");
       }
-      // After adding job, fetch updated jobs data
-      fetchJobs();
+      const addedJob = await res.json();
+      setJobs((prevJobs) => [...prevJobs, addedJob]);
     } catch (error) {
       console.error("Error adding job:", error);
       throw error;
@@ -65,31 +66,34 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to delete job");
       }
-      // After deleting job, fetch updated jobs data
-      fetchJobs();
+      setJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
     } catch (error) {
       console.error("Error deleting job:", error);
       throw error;
     }
   };
 
-  const updateJob = async (job) => {
+  const updateJob = async (updatedJob) => {
     try {
       const res = await fetch(
-        `https://job-filter-ncb8.onrender.com/api/jobs/${job.id}`,
+        `https://job-filter-ncb8.onrender.com/api/jobs/${updatedJob.id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(job),
+          body: JSON.stringify(updatedJob),
         }
       );
       if (!res.ok) {
         throw new Error("Failed to update job");
       }
-      // After updating job, fetch updated jobs data
-      fetchJobs();
+      const updatedJobData = await res.json();
+      setJobs((prevJobs) =>
+        prevJobs.map((job) =>
+          job.id === updatedJobData.id ? updatedJobData : job
+        )
+      );
     } catch (error) {
       console.error("Error updating job:", error);
       throw error;
