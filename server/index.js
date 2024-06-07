@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://your-production-frontend-url.com",
+      "https://mellow-meerkat-0c9423.netlify.app",
     ],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,

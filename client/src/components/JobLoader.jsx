@@ -1,6 +1,8 @@
 const JobLoader = async ({ params }) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/jobs/${params.id}`);
+    const response = await fetch(
+      `https://job-filter-ncb8.onrender.com/api/jobs/${params.id}`
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch job data");
     }

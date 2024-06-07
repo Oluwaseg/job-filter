@@ -18,7 +18,7 @@ const App = () => {
   const [jobs, setJobs] = useState([]);
   const fetchJobs = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/jobs");
+      const res = await fetch("https://job-filter-ncb8.onrender.com/api/jobs");
       if (!res.ok) {
         throw new Error("Failed to fetch jobs");
       }
@@ -36,7 +36,7 @@ const App = () => {
 
   const addJob = async (newJob) => {
     try {
-      const res = await fetch("http://localhost:8000/api/jobs", {
+      const res = await fetch("https://job-filter-ncb8.onrender.com/api/jobs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,9 +56,12 @@ const App = () => {
 
   const deleteJob = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/jobs/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://job-filter-ncb8.onrender.com/api/jobs/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!res.ok) {
         throw new Error("Failed to delete job");
       }
@@ -72,13 +75,16 @@ const App = () => {
 
   const updateJob = async (job) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/jobs/${job.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(job),
-      });
+      const res = await fetch(
+        `https://job-filter-ncb8.onrender.com/api/jobs/${job.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(job),
+        }
+      );
       if (!res.ok) {
         throw new Error("Failed to update job");
       }
