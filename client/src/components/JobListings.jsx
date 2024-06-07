@@ -21,13 +21,13 @@ const JobListings = ({ isHome = false }) => {
         const data = await res.json();
         setJobs(data);
       } catch (error) {
-        console.log("Error fetching date", error);
+        console.log("Error fetching data", error);
       } finally {
         setLoading(false);
       }
     };
     fetchJobs();
-  }, [isHome]);
+  }, [isHome, jobs]);
 
   if (loading) {
     return <Spinner loading={loading} />;

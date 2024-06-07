@@ -16,6 +16,7 @@ import EditJobPage from "./pages/EditJobPage";
 
 const App = () => {
   const [jobs, setJobs] = useState([]);
+
   const fetchJobs = async () => {
     try {
       const res = await fetch("https://job-filter-ncb8.onrender.com/api/jobs");
@@ -24,14 +25,15 @@ const App = () => {
       }
       const data = await res.json();
       console.log("Fetched jobs:", data);
-      setJobs(data);
+      return data;
     } catch (error) {
       console.error("Error fetching jobs:", error);
+      return [];
     }
   };
 
   useEffect(() => {
-    fetchJobs();
+    fetchJobs().then(setJobs); // Fetch jobs and set state on component mount
   }, []); // Empty dependency array ensures this effect runs only once, when the component mounts
 
   const addJob = async (newJob) => {
@@ -46,8 +48,8 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to add job");
       }
-      // After adding job, fetch updated jobs data
-      fetchJobs();
+      const updatedJobs = await fetchJobs();
+      setJobs(updatedJobs);
     } catch (error) {
       console.error("Error adding job:", error);
       throw error;
@@ -65,8 +67,8 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to delete job");
       }
-      // After deleting job, fetch updated jobs data
-      fetchJobs();
+      const updatedJobs = await fetchJobs();
+      setJobs(updatedJobs);
     } catch (error) {
       console.error("Error deleting job:", error);
       throw error;
@@ -88,8 +90,8 @@ const App = () => {
       if (!res.ok) {
         throw new Error("Failed to update job");
       }
-      // After updating job, fetch updated jobs data
-      fetchJobs();
+      const updatedJobs = await fetchJobs();
+      setJobs(updatedJobs);
     } catch (error) {
       console.error("Error updating job:", error);
       throw error;
