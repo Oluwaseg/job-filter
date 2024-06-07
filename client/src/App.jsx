@@ -31,10 +31,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchJobs();
-    };
-    fetchData();
+    fetchJobs();
   }, []); // Empty dependency array ensures this effect runs only once, when the component mounts
 
   const addJob = async (newJob) => {
