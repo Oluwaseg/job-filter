@@ -24,7 +24,6 @@ const App = () => {
         throw new Error("Failed to fetch jobs");
       }
       const data = await res.json();
-      console.log("Fetched jobs:", data);
       return data;
     } catch (error) {
       console.error("Error fetching jobs:", error);
